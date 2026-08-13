@@ -1,0 +1,19 @@
+[Unit]
+Description=gMSA Kerberos Lease Helper - %I
+Requires=credentials-fetcher.service
+After=credentials-fetcher.service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+RuntimeDirectory=gmsa-helper-%i
+RuntimeDirectoryMode=0700
+Environment="GMSA_NAME=gMSA-%I"
+Environment="GMSA_STATE_DIR=/run/gmsa-helper-%i"
+ExecStart=/usr/local/libexec/gmsa-helper start
+ExecStop=/usr/local/libexec/gmsa-helper stop
+
+[Install]
+WantedBy=multi-user.target
