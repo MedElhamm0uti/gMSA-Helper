@@ -21,7 +21,10 @@ PROTO_SOURCE ?=
 PROTO_SHA256 ?=
 PROTO_URL ?= https://raw.githubusercontent.com/aws/credentials-fetcher/$(CREDENTIALS_FETCHER_TAG)/internal/grpc/proto/credentialsfetcher.proto
 
-.PHONY: all build proto validate-proto prepare-modules verify-modules clean print-config
+INSTALL_BIN := /usr/local/libexec/gmsa-helper
+INSTALL_UNIT := /etc/systemd/system/gmsa-helper@.service
+
+.PHONY: all build proto validate-proto prepare-modules verify-modules install uninstall clean print-config
 
 all: build
 
@@ -126,6 +129,21 @@ build: validate-proto verify-modules | $(BUILD_DIR)
 		-ldflags='-s -w' \
 		-o "$(BINARY)" .
 	@echo "Built: $(BINARY)"
+
+install:
+	@test -x "$(BINARY)" || { echo "ERROR: $(BINARY) is missing. Run 'make build' first." >&2; exit 1; }
+	@install -d -o root -g root -m 0755 /usr/local/libexec
+	@install -o root -g root -m 0750 "$(BINARY)" "$(INSTALL_BIN)"
+	@install -o root -g root -m 0644 gmsa-helper@.service "$(INSTALL_UNIT)"
+	@echo "Installed: $(INSTALL_BIN)"
+	@echo "Installed: $(INSTALL_UNIT)"
+	@echo "Run 'sudo systemctl daemon-reload' manually before starting an instance."
+
+uninstall:
+	@rm -f "$(INSTALL_BIN)" "$(INSTALL_UNIT)"
+	@echo "Removed: $(INSTALL_BIN)"
+	@echo "Removed: $(INSTALL_UNIT)"
+	@echo "Run 'sudo systemctl daemon-reload' manually."
 
 clean:
 	@rm -rf "$(BUILD_DIR)"
