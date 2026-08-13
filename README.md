@@ -291,9 +291,9 @@ because `sudo` runs Git as `root`, which normally does not have access to the SS
 ## [Public] repository
 
 ```bash
-Sudo git clone https://github.com/MedElhamm0uti/gMSA-Helper.git
+sudo git clone https://github.com/MedElhamm0uti/gMSA-Helper.git
 
-Sudo chown -R "$(id -u)":"$(id -g)" /opt/gMSA-Helper
+sudo chown -R "$(id -u)":"$(id -g)" /opt/gMSA-Helper
 
 cd gMSA-Helper
 ```
