@@ -239,7 +239,7 @@ sudo ./deployment-validation.sh --web-stack
 
 # Build gMSA-Helper
 
-## Clone the private repository
+## [PRIVATE] repository
 
 Because the repository is private, configure SSH authentication for GitHub on the RHEL host first.
 
@@ -288,6 +288,15 @@ sudo git clone git@github.com:MedElhamm0uti/gMSA-Helper.git
 
 because `sudo` runs Git as `root`, which normally does not have access to the SSH private key stored in the deployment user's home directory.
 
+## [Public] repository
+
+```bash
+Sudo git clone https://github.com/MedElhamm0uti/gMSA-Helper.git
+
+Sudo chown -R "$(id -u)":"$(id -g)" /opt/gMSA-Helper
+
+cd gMSA-Helper
+```
 Inspect which credentials-fetcher proto will be used for contract validation:
 
 ```bash
