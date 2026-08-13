@@ -243,7 +243,7 @@ Clone the repository and enter it:
 
 ```bash
 ##Sudo git clone https://github.com/MedElhamm0uti/gMSA-Helper.git 
-sudo chown -R "$(id -u)":"$(id -g)" /opt/credentials-fetch
+sudo chown -R "$(id -u)":"$(id -g)" /opt/gMSA-Helper
 
 git clone git@github.com:MedElhamm0uti/gMSA-Helper.git
 
